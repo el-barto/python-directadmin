@@ -549,6 +549,18 @@ class ApiConnector(object):
         if info.getheader('X-DirectAdmin') == 'unauthorized':
             raise ApiError("Invalid username or password")
 
+        # If we're getting HTML content we'll search for known
+        # error messages.
+        if info.getheader('Content-Type') == 'text/html':
+            errors = ['You cannot execute that command']
+            response = response.read()
+            for msg in errors:
+                if response.find(msg) > -1:
+                    raise ApiError(msg)
+            # If we don't find any known error messages,
+            # we exit anyway, because we can't handle this
+            raise ApiError('Got unexpected HTML response from server')
+
         # Parse the response query string
         response = urlparse.parse_qs(response.read())
 
