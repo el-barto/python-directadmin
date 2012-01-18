@@ -932,7 +932,7 @@ class Api(object):
         Method info: http://www.directadmin.com/api.html#info
         """
         return self._execute_cmd("CMD_API_SHOW_USER_USAGE", \
-                                 [('user', user)])
+                                 get=[('user', user)])
 
     def get_user_limits(self, user):
         """Get User Limits
@@ -945,7 +945,7 @@ class Api(object):
         Method info: http://www.directadmin.com/api.html#info
         """
         return self._execute_cmd("CMD_API_SHOW_USER_CONFIG", \
-                                 [('user', user)])
+                                 get=[('user', user)])
 
     def get_user_domains(self, user):
         """Get User Domains
