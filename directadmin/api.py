@@ -56,9 +56,9 @@ class User(object):
 
     Abstract representation of a Directadmin Panel User
     """
-    _properties = {'username': None, \
-                   'email': None, \
-                   'passwd': None, \
+    _properties = {'username': None,
+                   'email': None,
+                   'passwd': None,
                    'passwd2': None}
 
     def __init__(self, username, email, password):
@@ -210,12 +210,12 @@ class ResellerUser(User):
         serverip        -- ON or OFF If ON, the reseller will have the ability
                            to create users using the servers main ip.
     """
-    def __init__(self,  \
-                  username, \
-                  email, \
-                  password, \
-                  domain, \
-                  package=None, \
+    def __init__(self,
+                  username,
+                  email,
+                  password,
+                  domain,
+                  package=None,
                   ip="shared"):
         """Constructor
 
@@ -375,12 +375,12 @@ class EndUser(User):
         dnscontrol      -- ON or OFF If ON, the User will be able to modify
                            his/her dns records.
     """
-    def __init__(self,  \
-                  username, \
-                  email, \
-                  password, \
-                  domain, \
-                  package=None, \
+    def __init__(self,
+                  username,
+                  email,
+                  password,
+                  domain,
+                  package=None,
                   ip=None):
         """Constructor
 
@@ -456,11 +456,11 @@ class ApiConnector(object):
     _password = None
     _https = False
 
-    def __init__(self, \
-                  username, \
-                  password, \
-                  hostname="localhost", \
-                  port=2222, \
+    def __init__(self,
+                  username,
+                  password,
+                  hostname="localhost",
+                  port=2222,
                   https=False):
         """Constructor
 
@@ -500,7 +500,7 @@ class ApiConnector(object):
         request = urllib2.Request(url, parameters)
 
         # Directadmin's API requires Basic HTTP Authentication
-        base_auth = base64.b64encode("%s:%s" % \
+        base_auth = base64.b64encode("%s:%s" %
                 (self._username, self._password))
         request.add_header('Authorization', 'Basic %s' % base_auth)
 
@@ -523,9 +523,9 @@ class ApiConnector(object):
         else:
             protocol = "http"
         return '%s://%s:%d/%s' % \
-               (protocol, \
-                self._hostname, \
-                self._port, \
+               (protocol,
+                self._hostname,
+                self._port,
                 cmd)
 
     def _handle_response(self, response):
@@ -592,11 +592,11 @@ class Api(object):
     """
     _connector = None
 
-    def __init__(self, \
-                  username, \
-                  password, \
-                  hostname="localhost", \
-                  port=2222, \
+    def __init__(self,
+                  username,
+                  password,
+                  hostname="localhost",
+                  port=2222,
                   https=False):
         """Constructor
 
@@ -610,10 +610,10 @@ class Api(object):
         https -- boolean, if True all transactions will
                  be performed using HTTPS (default: False)
         """
-        self._connector = ApiConnector(username, \
-                                       password, \
-                                       hostname, \
-                                       port, \
+        self._connector = ApiConnector(username,
+                                       password,
+                                       hostname,
+                                       port,
                                        https)
 
     def _execute_cmd(self, cmd, parameters=None, get=None):
@@ -647,8 +647,8 @@ class Api(object):
         if not isinstance(admin_user, AdminUser):
             raise TypeError("admin_user must be an AdminUser object")
 
-        parameters = [('action', 'create'), \
-                      ('add', 'Submit'), \
+        parameters = [('action', 'create'),
+                      ('add', 'Submit'),
                       ('notify', self._yes_no(notify))]
         parameters.extend(admin_user.get_list())
         return self._execute_cmd("CMD_API_ACCOUNT_ADMIN", parameters)
@@ -670,8 +670,8 @@ class Api(object):
         if not isinstance(reseller_user, ResellerUser):
             raise TypeError("reseller_user must be an ResellerUser object")
 
-        parameters = [('action', 'create'), \
-                      ('add', 'Submit'), \
+        parameters = [('action', 'create'),
+                      ('add', 'Submit'),
                       ('notify', self._yes_no(notify))]
 
         parameters.extend(reseller_user.get_list())
@@ -694,8 +694,8 @@ class Api(object):
         if not isinstance(end_user, EndUser):
             raise TypeError("end_user must be an EndUser object")
 
-        parameters = [('action', 'create'), \
-                      ('add', 'Submit'), \
+        parameters = [('action', 'create'),
+                      ('add', 'Submit'),
                       ('notify', self._yes_no(notify))]
         parameters.extend(end_user.get_list())
         return self._execute_cmd("CMD_API_ACCOUNT_USER", parameters)
@@ -732,8 +732,8 @@ class Api(object):
             username = user['username']
         else:
             username = user
-        parameters = [('confirmed', 'Confirm'), \
-                      ('delete', 'yes'), \
+        parameters = [('confirmed', 'Confirm'),
+                      ('delete', 'yes'),
                       ('select0', username)]
         return self._execute_cmd("CMD_API_SELECT_USERS", parameters)
 
@@ -833,8 +833,8 @@ class Api(object):
         email -- a valid email address
         domain -- any of the user's domains
         """
-        parameters = [('evalue', email), \
-                      ('domain', domain), \
+        parameters = [('evalue', email),
+                      ('domain', domain),
                       ('email', 'Save')]
         return self._execute_cmd("CMD_API_CHANGE_INFO", parameters)
 
@@ -908,11 +908,11 @@ class Api(object):
         stats = self._execute_cmd("CMD_API_ADMIN_STATS")
 
         # Split disk info
-        options = ['filesystem', \
-                   'blocks', \
-                   'used', \
-                   'available', \
-                   'usedpercent', \
+        options = ['filesystem',
+                   'blocks',
+                   'used',
+                   'available',
+                   'usedpercent',
                    'mounted']
         for key in stats.keys():
             if key.startswith('disk'):
@@ -931,7 +931,7 @@ class Api(object):
 
         Method info: http://www.directadmin.com/api.html#info
         """
-        return self._execute_cmd("CMD_API_SHOW_USER_USAGE", \
+        return self._execute_cmd("CMD_API_SHOW_USER_USAGE",
                                  get=[('user', user)])
 
     def get_user_limits(self, user):
@@ -944,7 +944,7 @@ class Api(object):
 
         Method info: http://www.directadmin.com/api.html#info
         """
-        return self._execute_cmd("CMD_API_SHOW_USER_CONFIG", \
+        return self._execute_cmd("CMD_API_SHOW_USER_CONFIG",
                                  get=[('user', user)])
 
     def get_user_domains(self, user):
@@ -956,7 +956,7 @@ class Api(object):
 
         Method info: http://www.directadmin.com/api.html#info
         """
-        return self._execute_cmd("CMD_API_SHOW_USER_DOMAINS", \
+        return self._execute_cmd("CMD_API_SHOW_USER_DOMAINS",
                                  get=[('user', user)])
 
     def list_reseller_packages(self):
@@ -979,7 +979,7 @@ class Api(object):
 
         Method info: http://www.directadmin.com/api.html#package
         """
-        return self._execute_cmd("CMD_API_PACKAGES_RESELLER", \
+        return self._execute_cmd("CMD_API_PACKAGES_RESELLER",
                                  [('package', package)])
 
     def list_user_packages(self):
@@ -1002,7 +1002,7 @@ class Api(object):
 
         Method info: http://www.directadmin.com/api.html#package
         """
-        return self._execute_cmd("CMD_API_PACKAGES_USER", \
+        return self._execute_cmd("CMD_API_PACKAGES_USER",
                                  [('package', package)])
 
     def list_domains(self):
@@ -1028,7 +1028,7 @@ class Api(object):
         Parameters:
         domain -- the domain to be shown
         """
-        return self._execute_cmd("CMD_API_SUBDOMAINS", \
+        return self._execute_cmd("CMD_API_SUBDOMAINS",
                 [('domain', domain)])
 
     def create_subdomain(self, domain, subdomain):
@@ -1044,8 +1044,8 @@ class Api(object):
         domain -- main domain
         subdomain -- subdomain to be created
         """
-        parameters = [('action', 'create'), \
-                      ('domain', domain), \
+        parameters = [('action', 'create'),
+                      ('domain', domain),
                       ('subdomain', subdomain)]
         return self._execute_cmd("CMD_API_SUBDOMAINS", parameters)
 
@@ -1065,9 +1065,9 @@ class Api(object):
                            and its contents will be removed
                            Default: False
         """
-        parameters = [('action', 'delete'), \
-                      ('domain', domain), \
-                      ('select0', subdomain), \
+        parameters = [('action', 'delete'),
+                      ('domain', domain),
+                      ('select0', subdomain),
                       ('contents', self._yes_no(remove_contents))]
         return self._execute_cmd("CMD_API_SUBDOMAINS", parameters)
 
@@ -1096,10 +1096,10 @@ class Api(object):
         user -- database user (username_ will be prepended)
         password -- username_user's password
         """
-        parameters = [('action', 'create'), \
-                      ('name', name), \
-                      ('user', user), \
-                      ('passwd', password), \
+        parameters = [('action', 'create'),
+                      ('name', name),
+                      ('user', user),
+                      ('passwd', password),
                       ('passwd2', password)]
         return self._execute_cmd("CMD_API_DATABASES", parameters)
 
@@ -1138,13 +1138,13 @@ class Api(object):
         old_password -- current password of the account
         new_password -- new password to define
         """
-        parameters = [('email', email), \
-                      ('oldpassword', old_password), \
-                      ('password1', new_password), \
-                      ('password2', new_password), \
+        parameters = [('email', email),
+                      ('oldpassword', old_password),
+                      ('password1', new_password),
+                      ('password2', new_password),
                       ('api', 'yes')]
 
-        return self._execute_cmd("CMD_API_CHANGE_EMAIL_PASSWORD", \
+        return self._execute_cmd("CMD_API_CHANGE_EMAIL_PASSWORD",
                                  parameters)
 
     def list_pop_accounts(self, domain):
@@ -1159,7 +1159,7 @@ class Api(object):
         Parameters:
         domain -- domain name of which the accounts will be listed
         """
-        parameters = [('action', 'list'), \
+        parameters = [('action', 'list'),
                       ('domain', domain)]
         return self._execute_cmd("CMD_API_POP", parameters)
 
@@ -1178,10 +1178,10 @@ class Api(object):
         password -- account password
         quota -- quota in MB, zero is unlimited (default: 0)
         """
-        parameters = [('action', 'create'), \
-                      ('domain', domain), \
-                      ('user', user), \
-                      ('passwd', password), \
+        parameters = [('action', 'create'),
+                      ('domain', domain),
+                      ('user', user),
+                      ('passwd', password),
                       ('quota', quota)]
         return self._execute_cmd("CMD_API_POP", parameters)
 
@@ -1198,8 +1198,8 @@ class Api(object):
         domain -- domain from which the account will be removed
         user -- email username (what comes before the @)
         """
-        parameters = [('action', 'delete'), \
-                      ('domain', domain), \
+        parameters = [('action', 'delete'),
+                      ('domain', domain),
                       ('user', user)]
         return self._execute_cmd("CMD_API_POP", parameters)
 
@@ -1216,7 +1216,7 @@ class Api(object):
         email -- email account to check its password
         password -- current password of the account
         """
-        parameters = [('email', email), \
+        parameters = [('email', email),
                       ('passwd', password)]
         return self._execute_cmd("CMD_API_EMAIL_AUTH", parameters)
 
@@ -1233,7 +1233,7 @@ class Api(object):
         domain -- email domain (what comes after the @)
         user -- email username (what comes before the @)
         """
-        parameters = [('domain', domain), \
+        parameters = [('domain', domain),
                       ('user', user)]
         return self._execute_cmd("CMD_API_EMAIL_VACATION_MODIFY", parameters)
 
@@ -1252,8 +1252,8 @@ class Api(object):
         parameters = [('domain', domain)]
         return self._execute_cmd("CMD_API_EMAIL_VACATION", parameters)
 
-    def create_pop_vacation(self, domain, user, text, \
-                             startyear, startmonth, startday, starttime, \
+    def create_pop_vacation(self, domain, user, text,
+                             startyear, startmonth, startday, starttime,
                              endyear, endmonth, endday, endtime):
         """Create POP vacation
 
@@ -1277,22 +1277,22 @@ class Api(object):
         endday -- 2-digit day (01-31)
         endtime -- morning|afternoon|evening
         """
-        parameters = [('action', 'create'), \
-                      ('domain', domain), \
-                      ('user', user), \
-                      ('text', text), \
-                      ('startyear', startyear), \
-                      ('startmonth', startmonth), \
-                      ('startday', startday), \
-                      ('starttime', starttime), \
-                      ('endyear', endyear), \
-                      ('endmonth', endmonth), \
-                      ('endday', endday), \
+        parameters = [('action', 'create'),
+                      ('domain', domain),
+                      ('user', user),
+                      ('text', text),
+                      ('startyear', startyear),
+                      ('startmonth', startmonth),
+                      ('startday', startday),
+                      ('starttime', starttime),
+                      ('endyear', endyear),
+                      ('endmonth', endmonth),
+                      ('endday', endday),
                       ('endtime', endtime)]
         return self._execute_cmd("CMD_API_EMAIL_VACATION", parameters)
 
-    def update_pop_vacation(self, domain, user, text, \
-                             startyear, startmonth, startday, starttime, \
+    def update_pop_vacation(self, domain, user, text,
+                             startyear, startmonth, startday, starttime,
                              endyear, endmonth, endday, endtime):
         """Update POP vacation
 
@@ -1316,17 +1316,17 @@ class Api(object):
         endday -- 2-digit day (01-31)
         endtime -- morning|afternoon|evening
         """
-        parameters = [('action', 'modify'), \
-                      ('domain', domain), \
-                      ('user', user), \
-                      ('text', text), \
-                      ('startyear', startyear), \
-                      ('startmonth', startmonth), \
-                      ('startday', startday), \
-                      ('starttime', starttime), \
-                      ('endyear', endyear), \
-                      ('endmonth', endmonth), \
-                      ('endday', endday), \
+        parameters = [('action', 'modify'),
+                      ('domain', domain),
+                      ('user', user),
+                      ('text', text),
+                      ('startyear', startyear),
+                      ('startmonth', startmonth),
+                      ('startday', startday),
+                      ('starttime', starttime),
+                      ('endyear', endyear),
+                      ('endmonth', endmonth),
+                      ('endday', endday),
                       ('endtime', endtime)]
         return self._execute_cmd("CMD_API_EMAIL_VACATION", parameters)
 
@@ -1343,7 +1343,62 @@ class Api(object):
         domain -- email domain
         user -- email username (what comes before the @)
         """
-        parameters = [('action', 'delete'), \
-                      ('domain', domain), \
+        parameters = [('action', 'delete'),
+                      ('domain', domain),
                       ('select0', user)]
         return self._execute_cmd("CMD_API_EMAIL_VACATION", parameters)
+
+    def create_backup(self, domain=None, items=None):
+        """Create User Level Backup
+
+        Implements command CMD_API_SITE_BACKUP
+
+        Schedules the creation of a user-level backup.
+
+        Further information: http://www.directadmin.com/features.php?id=512
+
+        Parameters:
+        domain -- one (any) of the user's domains
+        items -- list of items to backup
+
+        If domain is None, the first of the user's domains will be sent.
+
+        If items is None, all items will be included in the backup.
+        Available items:
+        * domain
+        * subdomain
+        * email
+        * forwarder
+        * autoresponder
+        * vacation
+        * list
+        * emailsettings
+        * ftp
+        * ftpsettings
+        * database
+        """
+
+        available_items = ['domain',
+                           'subdomain',
+                           'email',
+                           'forwarder',
+                           'autoresponder',
+                           'vacation',
+                           'list',
+                           'emailsettings',
+                           'ftp',
+                           'ftpsettings',
+                           'database']
+
+        if domain is None:
+            domain = self.list_domains()[0]
+
+        if items is None:
+            items = available_items
+
+        parameters = [('action', 'backup'), ('domain', domain)]
+
+        for i, v in enumerate(items):
+            parameters.append(('select%d' % i, v))
+
+        return self._execute_cmd("CMD_API_SITE_BACKUP", parameters)
