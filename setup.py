@@ -39,7 +39,7 @@ _description = "python-directadmin is a Python implementation " \
                "of Directadmin Panel Control Web API."
 
 setup(name='python-directadmin',
-      version='0.5',
+      version='0.6',
       description='Python implementation of Directadmin\'s Web API',
       long_description=_description,
       author='Andrés Gattinoni',
