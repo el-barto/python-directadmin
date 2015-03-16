@@ -5,11 +5,11 @@
 ## Introduction
 The aim of this project is to provide a simple and clean implementation of Directadmin's Web API for Python developers.
 
-Directadmin (http://www.directadmin.com) is a popular web control panel. It provides an HTTP API which python-directadmin intends to implement, to help python developers interact with the control panel.
+[Directadmin](http://www.directadmin.com) is a popular web control panel. It provides an HTTP API which python-directadmin intends to implement, to help python developers interact with the control panel.
 
 ## Install 
 
-Since version 0.3 python-directadmin comes with an installer script which uses [http://docs.python.org/distutils/ distutils]. 
+Since version 0.3 python-directadmin comes with an installer script which uses [distutils](http://docs.python.org/distutils/). 
 
 To install, just run:
 
@@ -60,7 +60,7 @@ else:
 
 Within the source code of this project you will find some sample scripts meant to explain how to use the API while performing some basic administrative tasks.
 
-Check out the SuspensionScript ([http://code.google.com/p/python-directadmin/source/browse/trunk/scripts/da_suspension code]) and the DaConsole ([http://code.google.com/p/python-directadmin/source/browse/trunk/scripts/da_console code]).
+Check out the [Suspension Script](https://github.com/el-barto/python-directadmin/wiki/Suspension-Script) with its [source code](https://github.com/el-barto/python-directadmin/blob/master/scripts/da_suspension) and the [DirectAdmin Console](https://github.com/el-barto/python-directadmin/wiki/DirectAdmin-Console) with its [source code](https://github.com/el-barto/python-directadmin/blob/master/scripts/da_console).
 
 ## License information 
 
