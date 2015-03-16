@@ -1,73 +1,70 @@
-==================
-Python Directadmin
-==================
+<h1>Python Directadmin</h1>
 
-*Python implementation of Directadmin's Web API*
+_A python implementation of Directadmin's Web API_
 
-Intro
------
-The aim of this project is to provide a simple and clean implementation 
-of Directadmin's Web API for Python developers.
+== Introduction ==
+The aim of this project is to provide a simple and clean implementation of Directadmin's Web API for Python developers.
 
-Directadmin_ is a popular web control panel. It provides an HTTP API which 
-*python-directadmin* intends to implement, to help python developers 
-interact with the control panel.
+Directadmin (http://www.directadmin.com) is a popular web control panel. It provides an HTTP API which python-directadmin intends to implement, to help python developers interact with the control panel.
 
-Examples
---------
+== Install ==
 
-**List all users**
+Since version 0.3 python-directadmin comes with an installer script which uses [http://docs.python.org/distutils/ distutils]. 
 
-::
-  import directadmin
+To install, just run:
 
-  api = directadmin.Api("admin", "password", "hostname.com", 2222)
-  print api.list_all_users()
+{{{
+python setup.py install
+}}}
 
+== Examples ==
 
-**Connect using HTTPS and list all users**
+*List all users*
+{{{
+import directadmin
 
-::
-  import directadmin
+api = directadmin.Api("admin", "password", "hostname.com", 2222)
+print api.list_all_users()
+}}}
 
-  api = directadmin.Api("admin", \
-                        "password", \
-                        "hostname.com", \
-                        2222, \
-                        True)
-  print api.list_all_users()
+*Connect using HTTPS and list all users*
+{{{
+import directadmin
 
-**Create an EndUser** (regular user)
+api = directadmin.Api("admin", \
+                      "password", \
+                      "hostname.com", \
+                      2222, \
+                      True)
+print api.list_all_users()
+}}}
 
-::
-  import directadmin
+*Create an EndUser* (regular user)
+{{{
+import directadmin
 
-  api = directadmin.Api("admin", "password", "hostname.com")
-  user = EndUser('username', \
-                 'email@domain.com', \
-                 'userpassword', \
-                 'domain.com', \
-                 'service_package_1', \
-                 '1.2.3.4')
-  if api.create_user(user, True):
-      print "User %s successfuly created" % user['username']
-  else:
-      print "Failed to create user"
+api = directadmin.Api("admin", "password", "hostname.com")
+user = EndUser('username', \
+               'email@domain.com', \
+               'userpassword', \
+               'domain.com', \
+               'service_package_1', \
+               '1.2.3.4')
+if api.create_user(user, True):
+    print "User %s successfuly created" % user['username']
+else:
+    print "Failed to create user"
+}}}
 
+== Scripts ==
 
-Scripts
--------
+Within the source code of this project you will find some sample scripts meant to explain how to use the API while performing some basic administrative tasks.
 
-Within the source code of this project you will find some sample scripts 
-meant to explain how to use the API while performing some basic administrative tasks.
+Check out the SuspensionScript ([http://code.google.com/p/python-directadmin/source/browse/trunk/scripts/da_suspension code]) and the DaConsole ([http://code.google.com/p/python-directadmin/source/browse/trunk/scripts/da_console code]).
 
-License information
--------------------
+== License information ==
 
-The author of this code has no relationship with Directadmin or its creators. 
-This is just an implementation of a public API distributed under GPL v.3 license. 
-It is meant to be used to interact with Directadmin Web Control Panel, 
-which is a privative software that requires the purchase of a license to operate.
+The author of this code has no relationship with Directadmin or its creators. This is just an implementation of a public API distributed under GPL v.3 license. It is meant to be used to interact with Directadmin Web Control Panel, which is a privative software that requires the purchase of a license to operate.
 
 Copyright (C) 2009, Andrés Gattinoni
 
@@ -80,5 +77,3 @@ This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
-
-.. _Directadmin: http://www.directadmin.com
