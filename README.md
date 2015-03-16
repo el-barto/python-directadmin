@@ -7,7 +7,7 @@ The aim of this project is to provide a simple and clean implementation of Direc
 
 Directadmin (http://www.directadmin.com) is a popular web control panel. It provides an HTTP API which python-directadmin intends to implement, to help python developers interact with the control panel.
 
-## Install ==
+## Install 
 
 Since version 0.3 python-directadmin comes with an installer script which uses [http://docs.python.org/distutils/ distutils]. 
 
