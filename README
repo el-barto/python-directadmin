@@ -1,34 +1,34 @@
-<h1>Python Directadmin</h1>
+# Python Directadmin
 
-_A python implementation of Directadmin's Web API_
+*A python implementation of Directadmin's Web API*
 
-== Introduction ==
+## Introduction
 The aim of this project is to provide a simple and clean implementation of Directadmin's Web API for Python developers.
 
 Directadmin (http://www.directadmin.com) is a popular web control panel. It provides an HTTP API which python-directadmin intends to implement, to help python developers interact with the control panel.
 
-== Install ==
+## Install ==
 
 Since version 0.3 python-directadmin comes with an installer script which uses [http://docs.python.org/distutils/ distutils]. 
 
 To install, just run:
 
-{{{
+```
 python setup.py install
-}}}
+```
 
-== Examples ==
+## Examples 
 
-*List all users*
-{{{
+### List all users
+```
 import directadmin
 
 api = directadmin.Api("admin", "password", "hostname.com", 2222)
 print api.list_all_users()
-}}}
+```
 
-*Connect using HTTPS and list all users*
-{{{
+### Connect using HTTPS and list all users
+```
 import directadmin
 
 api = directadmin.Api("admin", \
@@ -37,10 +37,10 @@ api = directadmin.Api("admin", \
                       2222, \
                       True)
 print api.list_all_users()
-}}}
+```
 
-*Create an EndUser* (regular user)
-{{{
+### Create an EndUser (regular user)
+```
 import directadmin
 
 api = directadmin.Api("admin", "password", "hostname.com")
@@ -54,15 +54,15 @@ if api.create_user(user, True):
     print "User %s successfuly created" % user['username']
 else:
     print "Failed to create user"
-}}}
+```
 
-== Scripts ==
+## Scripts 
 
 Within the source code of this project you will find some sample scripts meant to explain how to use the API while performing some basic administrative tasks.
 
 Check out the SuspensionScript ([http://code.google.com/p/python-directadmin/source/browse/trunk/scripts/da_suspension code]) and the DaConsole ([http://code.google.com/p/python-directadmin/source/browse/trunk/scripts/da_console code]).
 
-== License information ==
+## License information 
 
 The author of this code has no relationship with Directadmin or its creators. This is just an implementation of a public API distributed under GPL v.3 license. It is meant to be used to interact with Directadmin Web Control Panel, which is a privative software that requires the purchase of a license to operate.
 
