@@ -232,7 +232,7 @@ class ResellerUser(User):
                            server's main ip. assign will use one of the
                            reseller's ips (default: shared)
         """
-        super(User, self).__init__(username, email, password)
+        super(ResellerUser, self).__init__(username, email, password)
         self['domain'] = domain
         self['ip'] = ip
         if package is not None:
@@ -396,7 +396,7 @@ class EndUser(User):
         ip              -- One of the ips which is available for user creation.
                            Only free or shared ips are allowed.
         """
-        super(User, self).__init__(username, email, password)
+        super(EndUser, self).__init__(username, email, password)
         self['domain'] = domain
         self['ip'] = ip
         if package is not None:
