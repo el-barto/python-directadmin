@@ -210,13 +210,14 @@ class ResellerUser(User):
         serverip        -- ON or OFF If ON, the reseller will have the ability
                            to create users using the servers main ip.
     """
+
     def __init__(self,
-                  username,
-                  email,
-                  password,
-                  domain,
-                  package=None,
-                  ip="shared"):
+                 username,
+                 email,
+                 password,
+                 domain,
+                 package=None,
+                 ip="shared"):
         """Constructor
 
         Initializes the Reseller user
@@ -375,13 +376,14 @@ class EndUser(User):
         dnscontrol      -- ON or OFF If ON, the User will be able to modify
                            his/her dns records.
     """
+
     def __init__(self,
-                  username,
-                  email,
-                  password,
-                  domain,
-                  package=None,
-                  ip=None):
+                 username,
+                 email,
+                 password,
+                 domain,
+                 package=None,
+                 ip=None):
         """Constructor
 
         Initializes the Reseller user
@@ -457,11 +459,11 @@ class ApiConnector(object):
     _https = False
 
     def __init__(self,
-                  username,
-                  password,
-                  hostname="localhost",
-                  port=2222,
-                  https=False):
+                 username,
+                 password,
+                 hostname="localhost",
+                 port=2222,
+                 https=False):
         """Constructor
 
         Parameters:
@@ -501,7 +503,7 @@ class ApiConnector(object):
 
         # Directadmin's API requires Basic HTTP Authentication
         base_auth = base64.b64encode("%s:%s" %
-                (self._username, self._password))
+                                     (self._username, self._password))
         request.add_header('Authorization', 'Basic %s' % base_auth)
 
         # Identify our app with a custom User-Agent
@@ -593,11 +595,11 @@ class Api(object):
     _connector = None
 
     def __init__(self,
-                  username,
-                  password,
-                  hostname="localhost",
-                  port=2222,
-                  https=False):
+                 username,
+                 password,
+                 hostname="localhost",
+                 port=2222,
+                 https=False):
         """Constructor
 
         Initializes the connection for the API
@@ -1029,7 +1031,7 @@ class Api(object):
         domain -- the domain to be shown
         """
         return self._execute_cmd("CMD_API_SUBDOMAINS",
-                [('domain', domain)])
+                                 [('domain', domain)])
 
     def create_subdomain(self, domain, subdomain):
         """Create subdomain
@@ -1253,8 +1255,8 @@ class Api(object):
         return self._execute_cmd("CMD_API_EMAIL_VACATION", parameters)
 
     def create_pop_vacation(self, domain, user, text,
-                             startyear, startmonth, startday, starttime,
-                             endyear, endmonth, endday, endtime):
+                            startyear, startmonth, startday, starttime,
+                            endyear, endmonth, endday, endtime):
         """Create POP vacation
 
         Implements command CMD_API_EMAIL_VACATION
@@ -1292,8 +1294,8 @@ class Api(object):
         return self._execute_cmd("CMD_API_EMAIL_VACATION", parameters)
 
     def update_pop_vacation(self, domain, user, text,
-                             startyear, startmonth, startday, starttime,
-                             endyear, endmonth, endday, endtime):
+                            startyear, startmonth, startday, starttime,
+                            endyear, endmonth, endday, endtime):
         """Update POP vacation
 
         Implements command CMD_API_EMAIL_VACATION

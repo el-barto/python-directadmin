@@ -51,7 +51,8 @@ import getpass
 from optparse import OptionParser
 import directadmin
 
-def main ():
+
+def main():
     """
     Main function
 
@@ -61,38 +62,38 @@ def main ():
     """
 
     # Build an option parser
-    parser = OptionParser(usage='%prog [options] suspend|unsuspend <username>', \
-                          version=__version__, \
-                          description="Suspension is a simple script " \
-                                      "for suspending/unsuspending " \
+    parser = OptionParser(usage='%prog [options] suspend|unsuspend <username>',
+                          version=__version__,
+                          description="Suspension is a simple script "
+                                      "for suspending/unsuspending "
                                       "Directadmin users")
-    parser.add_option('-u', '--user', dest='user', \
-                      help='Directadmin admin/reseller username', \
+    parser.add_option('-u', '--user', dest='user',
+                      help='Directadmin admin/reseller username',
                       metavar='USERNAME', default=None)
-    parser.add_option('-p', '--password', dest='password', \
-                      help='Directadmin admin/reseller password', \
+    parser.add_option('-p', '--password', dest='password',
+                      help='Directadmin admin/reseller password',
                       metavar='PASSWORD', default=None)
-    parser.add_option('-H', '--host', dest='host', \
-                      help='Directadmin hostname (default: localhost)', \
+    parser.add_option('-H', '--host', dest='host',
+                      help='Directadmin hostname (default: localhost)',
                       metavar='HOSTNAME', default="localhost")
-    parser.add_option('-P', '--port', dest='port', \
-                      help='Directadmin port (default: 2222)', \
+    parser.add_option('-P', '--port', dest='port',
+                      help='Directadmin port (default: 2222)',
                       metavar='PORT', default=2222)
 
     # Parse options and do some input checking
     (option, args) = parser.parse_args()
     if not args or len(args) > 2:
-        parser.error("You need to specify an action " \
+        parser.error("You need to specify an action "
                      "(suspend or unsuspend) and a user")
         return 1
 
     if args[0] not in ("suspend", "unsuspend"):
-        parser.error('Unrecognised action: %s. ' \
-                     'Should be "suspend" or "unsuspend"' % \
-                      args[0])
+        parser.error('Unrecognised action: %s. '
+                     'Should be "suspend" or "unsuspend"' %
+                     args[0])
         return 2
 
-    # If we don't have user or password, ask 
+    # If we don't have user or password, ask
     # for it interactively
     if not option.user:
         option.user = raw_input("Admin username: ")
@@ -101,9 +102,9 @@ def main ():
         option.password = getpass.getpass("Password: ")
 
     # Get an API instance
-    api = directadmin.Api(option.user, \
-                          option.password, \
-                          option.host, \
+    api = directadmin.Api(option.user,
+                          option.password,
+                          option.host,
                           option.port)
 
     # Do the suspension/unsuspension
