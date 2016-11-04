@@ -1404,3 +1404,32 @@ class Api(object):
             parameters.append(('select%d' % i, v))
 
         return self._execute_cmd("CMD_API_SITE_BACKUP", parameters)
+
+    def list_email_list(self, domain):
+        """List email lists
+
+        Implements command CMD_API_EMAIL_LIST
+
+        Returns a list of all the email lists for domain
+
+        Parameters:
+        domain -- the domain to be shown
+        """
+        return self._execute_cmd("CMD_API_EMAIL_LIST",
+                                 [('domain', domain)])
+
+    def list_email_list_member(self, domain, name):
+        """List members of email list
+
+        Implements command CMD_API_EMAIL_LIST
+
+        Returns a list of all the members of email list for domain
+
+        Parameters:
+        domain - the domain to be shown
+        name - the list name to be shown
+        """
+        parameters = [('action', 'view'),
+                      ('domain', domain),
+                      ('name', name)]
+        return self._execute_cmd("CMD_API_EMAIL_LIST", parameters)
