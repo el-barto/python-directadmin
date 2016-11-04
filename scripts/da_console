@@ -41,6 +41,7 @@ __version__ = "0.2"
 __revision__ = "$Revision: 26 $"
 __config__ = '~/.daconsole.conf'
 
+
 class DAConsole (cmd.Cmd):
 
     """Directadmin Console
@@ -68,9 +69,9 @@ class DAConsole (cmd.Cmd):
             "=============================\n" \
             "Type help or ? for help.\n" \
             "Type quit, Ctrl+D or Ctrl+C to exit" % \
-             __version__
+        __version__
 
-    def __init__ (self, api=None, config=None, nested=False):
+    def __init__(self, api=None, config=None, nested=False):
         """Constructor
 
         Instanciates a new Directadmin Console.
@@ -81,7 +82,7 @@ class DAConsole (cmd.Cmd):
         self._parse_config(config)
         self._api = api
 
-    def onecmd (self, line):
+    def onecmd(self, line):
         """Overloading of the cmd.Cmd.onecmd method
            to handle API exceptions"""
         r = False
@@ -93,7 +94,7 @@ class DAConsole (cmd.Cmd):
                 return True
         return r
 
-    def _parse_config (self, config):
+    def _parse_config(self, config):
         """Parses the configuration file"""
         if config is not None and os.path.isfile(config):
             self._config_file = config
@@ -104,8 +105,7 @@ class DAConsole (cmd.Cmd):
                 for option, value in parser.items(section):
                     self._servers[section][option] = value
 
-
-    def _get_api (self, data=None):
+    def _get_api(self, data=None):
         """Get API
 
         Returns an instance of Directadmin API.
@@ -122,7 +122,7 @@ class DAConsole (cmd.Cmd):
 
         if self._api is None:
             # Check hostname and port
-            if self._hostname is None:                
+            if self._hostname is None:
                 host = raw_input('Host [localhost]: ')
                 if host == "":
                     self._hostname = "localhost"
@@ -142,46 +142,46 @@ class DAConsole (cmd.Cmd):
 
             # Check username
             if self._username is None:
-                self._username = raw_input('Username: ')        
+                self._username = raw_input('Username: ')
 
             # Check password
             if self._password is None:
                 self._password = getpass.getpass('Password: ')
 
             # Get the API object
-            self._api = directadmin.Api(self._username, \
-                                        self._password, \
-                                        self._hostname, \
-                                        self._port, \
+            self._api = directadmin.Api(self._username,
+                                        self._password,
+                                        self._hostname,
+                                        self._port,
                                         self._https)
             # Add the server to the list
-            self._servers[self._hostname] = {'hostname': self._hostname, \
-                                             'port': self._port, \
-                                             'username': self._username, \
+            self._servers[self._hostname] = {'hostname': self._hostname,
+                                             'port': self._port,
+                                             'username': self._username,
                                              'password': self._password}
         return self._api
 
-    def help_help (self):
+    def help_help(self):
         """Help information for the help command"""
         print "Shows help information."
         print "Usage: ? | help [command]"
 
-    def do_quit (self, s):
+    def do_quit(self, s):
         """Quits the console"""
         return True
 
-    def do_version (self, args=None):
+    def do_version(self, args=None):
         """Prints version information"""
         print "Directadmin Console, v.%s" % __version__
 
-    def do_config_file (self, s):
+    def do_config_file(self, s):
         """Shows the configuration file currently being used"""
         if self._config_file is None:
             print "No configuration file found"
         else:
             print "Using %s configuration file" % self._config_file
 
-    def do_show_servers (self, server=None):
+    def do_show_servers(self, server=None):
         """Shows the list of defined servers"""
         list = self._servers
         if server is not None:
@@ -193,11 +193,11 @@ class DAConsole (cmd.Cmd):
             print "Defined servers:"
             for name in list:
                 print "* %s (%s@%s:%d)" % \
-                      (name, list[name]['username'], \
-                       list[name]['hostname'], \
+                      (name, list[name]['username'],
+                       list[name]['hostname'],
                        int(list[name]['port']))
 
-    def do_connect (self, server):
+    def do_connect(self, server):
         """Connect to a Directadmin server.
            Usage: connect [server_name]
            server_name = a server name defined
@@ -212,19 +212,19 @@ class DAConsole (cmd.Cmd):
         cmd.intro = None
         cmd.cmdloop()
 
-    def complete_connect (self, text, line, begidx, endix):
+    def complete_connect(self, text, line, begidx, endix):
         """Complete function for connect command.
            It completes the parameters based on the servers
            defined on the configuration file"""
         if len(self._servers) > 0:
             return [i for i in self._servers if i.startswith(text)]
-    
-    def _complete_users (self, text, line, begidx, endix):
+
+    def _complete_users(self, text, line, begidx, endix):
         """Base method for autocompletion with usernames
            It works if there's a connection established"""
-        return [i for i in self._get_user_list() if i.startswith(text)] 
+        return [i for i in self._get_user_list() if i.startswith(text)]
 
-    def do_suspend (self, username):
+    def do_suspend(self, username):
         """Suspends a Directadmin user"""
         api = self._get_api()
         if api.suspend_account(username):
@@ -234,7 +234,7 @@ class DAConsole (cmd.Cmd):
 
     complete_suspend = _complete_users
 
-    def do_unsuspend (self, username):
+    def do_unsuspend(self, username):
         """Un-suspends a Directadmin user"""
         api = self._get_api()
         if api.unsuspend_account(username):
@@ -244,7 +244,7 @@ class DAConsole (cmd.Cmd):
 
     complete_unsuspend = _complete_users
 
-    def _get_user_list (self):
+    def _get_user_list(self):
         """Retrieves and caches the user list of a server
            if the information is present.
            Used by _complete_users"""
@@ -253,7 +253,7 @@ class DAConsole (cmd.Cmd):
                 self._user_list = self._api.list_all_users()
         return self._user_list
 
-    def do_list (self, what=None):
+    def do_list(self, what=None):
         """Prints the list of users of a certain type: users, resellers, admins"""
         if what is None or what == "":
             print "What do you want to list? (users, resellers or admins)"
@@ -272,11 +272,11 @@ class DAConsole (cmd.Cmd):
         else:
             print "Can't list '%s'" % what
 
-    def complete_list (self, text, line, begidx, endix):
+    def complete_list(self, text, line, begidx, endix):
         """Complete function for list command"""
-        return [i for i in self._list_items if i.startswith(text)] 
+        return [i for i in self._list_items if i.startswith(text)]
 
-    def do_server_info (self, args=None):
+    def do_server_info(self, args=None):
         """Prints some basic server information"""
         api = self._get_api()
         info = api.get_server_stats()
@@ -295,27 +295,30 @@ class DAConsole (cmd.Cmd):
         for key in info.keys():
             if key.startswith('disk'):
                 print "%s\t%s\t%s\t%s\t%s\t%s" % \
-                      (info[key][0]['filesystem'], \
-                       info[key][0]['blocks'], \
-                       info[key][0]['available'], \
-                       info[key][0]['used'], \
-                       info[key][0]['usedpercent'], \
+                      (info[key][0]['filesystem'],
+                       info[key][0]['blocks'],
+                       info[key][0]['available'],
+                       info[key][0]['used'],
+                       info[key][0]['usedpercent'],
                        info[key][0]['mounted'])
 
     do_EOF = do_quit
 
-def get_optparser ():
+
+def get_optparser():
     """Defines the OptionParser to handle
        command line configuration options"""
-    parser = OptionParser('%prog [options]', \
+    parser = OptionParser('%prog [options]',
                           version='Directadmin Console v.%s' % __version__,
-                          description='Interactive console for the ' \
+                          description='Interactive console for the '
                                       'Directadmin Control Panel')
-    parser.add_option('-c', '--config', dest='config', \
-                      help='Set configuration file', \
+    parser.add_option('-c', '--config', dest='config',
+                      help='Set configuration file',
                       metavar='FILE', default=__config__)
     return parser
-def main ():
+
+
+def main():
     """Main
 
     This is the main function of the program.

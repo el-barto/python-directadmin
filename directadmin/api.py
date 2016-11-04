@@ -210,13 +210,14 @@ class ResellerUser(User):
         serverip        -- ON or OFF If ON, the reseller will have the ability
                            to create users using the servers main ip.
     """
+
     def __init__(self,
-                  username,
-                  email,
-                  password,
-                  domain,
-                  package=None,
-                  ip="shared"):
+                 username,
+                 email,
+                 password,
+                 domain,
+                 package=None,
+                 ip="shared"):
         """Constructor
 
         Initializes the Reseller user
@@ -375,13 +376,14 @@ class EndUser(User):
         dnscontrol      -- ON or OFF If ON, the User will be able to modify
                            his/her dns records.
     """
+
     def __init__(self,
-                  username,
-                  email,
-                  password,
-                  domain,
-                  package=None,
-                  ip=None):
+                 username,
+                 email,
+                 password,
+                 domain,
+                 package=None,
+                 ip=None):
         """Constructor
 
         Initializes the Reseller user
@@ -457,11 +459,11 @@ class ApiConnector(object):
     _https = False
 
     def __init__(self,
-                  username,
-                  password,
-                  hostname="localhost",
-                  port=2222,
-                  https=False):
+                 username,
+                 password,
+                 hostname="localhost",
+                 port=2222,
+                 https=False):
         """Constructor
 
         Parameters:
@@ -501,7 +503,7 @@ class ApiConnector(object):
 
         # Directadmin's API requires Basic HTTP Authentication
         base_auth = base64.b64encode("%s:%s" %
-                (self._username, self._password))
+                                     (self._username, self._password))
         request.add_header('Authorization', 'Basic %s' % base_auth)
 
         # Identify our app with a custom User-Agent
@@ -593,11 +595,11 @@ class Api(object):
     _connector = None
 
     def __init__(self,
-                  username,
-                  password,
-                  hostname="localhost",
-                  port=2222,
-                  https=False):
+                 username,
+                 password,
+                 hostname="localhost",
+                 port=2222,
+                 https=False):
         """Constructor
 
         Initializes the connection for the API
@@ -1029,7 +1031,7 @@ class Api(object):
         domain -- the domain to be shown
         """
         return self._execute_cmd("CMD_API_SUBDOMAINS",
-                [('domain', domain)])
+                                 [('domain', domain)])
 
     def create_subdomain(self, domain, subdomain):
         """Create subdomain
@@ -1253,8 +1255,8 @@ class Api(object):
         return self._execute_cmd("CMD_API_EMAIL_VACATION", parameters)
 
     def create_pop_vacation(self, domain, user, text,
-                             startyear, startmonth, startday, starttime,
-                             endyear, endmonth, endday, endtime):
+                            startyear, startmonth, startday, starttime,
+                            endyear, endmonth, endday, endtime):
         """Create POP vacation
 
         Implements command CMD_API_EMAIL_VACATION
@@ -1292,8 +1294,8 @@ class Api(object):
         return self._execute_cmd("CMD_API_EMAIL_VACATION", parameters)
 
     def update_pop_vacation(self, domain, user, text,
-                             startyear, startmonth, startday, starttime,
-                             endyear, endmonth, endday, endtime):
+                            startyear, startmonth, startday, starttime,
+                            endyear, endmonth, endday, endtime):
         """Update POP vacation
 
         Implements command CMD_API_EMAIL_VACATION
@@ -1402,3 +1404,106 @@ class Api(object):
             parameters.append(('select%d' % i, v))
 
         return self._execute_cmd("CMD_API_SITE_BACKUP", parameters)
+
+    def list_email_list(self, domain):
+        """List email lists
+
+        Implements command CMD_API_EMAIL_LIST
+
+        Returns a list of all the email lists for domain
+
+        Parameters:
+        domain -- the domain to be shown
+        """
+        return self._execute_cmd("CMD_API_EMAIL_LIST",
+                                 [('domain', domain)])
+
+    def list_email_list_member(self, domain, name):
+        """List members of email list
+
+        Implements command CMD_API_EMAIL_LIST
+
+        Returns a list of all the members of email list for domain
+
+        Parameters:
+        domain - the domain to be shown
+        name - the list name to be shown
+        """
+        parameters = [('action', 'view'),
+                      ('domain', domain),
+                      ('name', name)]
+        return self._execute_cmd("CMD_API_EMAIL_LIST", parameters)
+
+    def list_autoresponder(self, domain):
+        """List autoresponders info
+
+        Implements command CMD_API_EMAIL_AUTORESPONDER
+
+        Returns a list of all the autoresponders for domain
+
+        Method info: https://www.directadmin.com/features.php?id=348
+
+        Parameters:
+        domain -- the domain to be shown
+        """
+        return self._execute_cmd("CMD_API_EMAIL_AUTORESPONDER",
+                                 [('domain', domain)])
+
+    def delete_autoresponder(self, domain, user):
+        """Delete autoresponder
+
+        Implements command CMD_API_EMAIL_AUTORESPONDER
+
+        Returns action status
+
+        Method info: https://www.directadmin.com/features.php?id=348
+
+        Parameters:
+        domain -- the domain
+        user - username of autoresponder
+        """
+        parameters = [('action', 'delete'),
+                      ('domain', domain),
+                      ('select0', user)]
+        return self._execute_cmd("CMD_API_EMAIL_AUTORESPONDER", parameters)
+
+    def create_autoresponder(self, domain, user, message, cc=False, email=None):
+        """Delete autoresponder
+
+        Implements command CMD_API_EMAIL_AUTORESPONDER
+
+        Returns action status
+
+        Method info: https://www.directadmin.com/features.php?id=348
+
+        Parameters:
+        domain -- the domain
+        user - username of autoresponder
+        message - text of the message
+        cc - True or False (if you want to send a cc to email)
+        email - email to cc
+        """
+        parameters = [('action', 'create'),
+                      ('domain', domain),
+                      ('user', user),
+                      ('text', message),
+                      ('cc', self._yes_no(cc)),
+                      ('email', email or '')]
+        return self._execute_cmd("CMD_API_EMAIL_AUTORESPONDER", parameters)
+
+    def get_autoresponder(self, domain, user):
+        """Get autoresponder
+
+        Implements command CMD_API_EMAIL_AUTORESPONDER_MODIFY
+
+        Returns a settings of autoresponder
+
+        Method info: https://www.directadmin.com/features.php?id=348
+
+        Parameters:
+        domain -- autoresponder domain (what comes after the @)
+        user - username of autoresponder (what comes before the @)
+        """
+        parameters = [('domain', domain),
+                      ('user', user)]
+        return self._execute_cmd("CMD_API_EMAIL_AUTORESPONDER_MODIFY", parameters)
