@@ -1433,3 +1433,77 @@ class Api(object):
                       ('domain', domain),
                       ('name', name)]
         return self._execute_cmd("CMD_API_EMAIL_LIST", parameters)
+
+    def list_autoresponder(self, domain):
+        """List autoresponders info
+
+        Implements command CMD_API_EMAIL_AUTORESPONDER
+
+        Returns a list of all the autoresponders for domain
+
+        Method info: https://www.directadmin.com/features.php?id=348
+
+        Parameters:
+        domain -- the domain to be shown
+        """
+        return self._execute_cmd("CMD_API_EMAIL_AUTORESPONDER",
+                                 [('domain', domain)])
+
+    def delete_autoresponder(self, domain, user):
+        """Delete autoresponder
+
+        Implements command CMD_API_EMAIL_AUTORESPONDER
+
+        Returns action status
+
+        Method info: https://www.directadmin.com/features.php?id=348
+
+        Parameters:
+        domain -- the domain
+        user - username of autoresponder
+        """
+        parameters = [('action', 'delete'),
+                      ('domain', domain),
+                      ('select0', user)]
+        return self._execute_cmd("CMD_API_EMAIL_AUTORESPONDER", parameters)
+
+    def create_autoresponder(self, domain, user, message, cc=False, email=None):
+        """Delete autoresponder
+
+        Implements command CMD_API_EMAIL_AUTORESPONDER
+
+        Returns action status
+
+        Method info: https://www.directadmin.com/features.php?id=348
+
+        Parameters:
+        domain -- the domain
+        user - username of autoresponder
+        message - text of the message
+        cc - True or False (if you want to send a cc to email)
+        email - email to cc
+        """
+        parameters = [('action', 'create'),
+                      ('domain', domain),
+                      ('user', user),
+                      ('text', message),
+                      ('cc', self._yes_no(cc)),
+                      ('email', email or '')]
+        return self._execute_cmd("CMD_API_EMAIL_AUTORESPONDER", parameters)
+
+    def get_autoresponder(self, domain, user):
+        """Get autoresponder
+
+        Implements command CMD_API_EMAIL_AUTORESPONDER_MODIFY
+
+        Returns a settings of autoresponder
+
+        Method info: https://www.directadmin.com/features.php?id=348
+
+        Parameters:
+        domain -- autoresponder domain (what comes after the @)
+        user - username of autoresponder (what comes before the @)
+        """
+        parameters = [('domain', domain),
+                      ('user', user)]
+        return self._execute_cmd("CMD_API_EMAIL_AUTORESPONDER_MODIFY", parameters)
